@@ -11,10 +11,6 @@
 }
 
 .name {
-  color: #444;
-}
-
-.symbol {
   color: #c58f3c;
 }
 
@@ -32,6 +28,7 @@
   border: 1px solid #003;
   border-radius: 4px;
 }
+
 .converter:hover {
   border: 1px solid #00d5;
 }

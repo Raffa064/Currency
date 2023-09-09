@@ -1,22 +1,36 @@
 import './Converter.css'
 
-export default function Converter({ name, symbol, conversion, baseValue, setBaseValue, conversionValue, setConversionValue, conversionSymbol, setConversionSymbol }) {
-  const preventNaN = (value) => {
-    if (isNaN(value)) return
-    setBaseValue(value.toFixed(2))
-  }
+export default function Converter({ currency, conversionRate, currentValueState, conversionState }) {
+  const [currentValue, setCurrentValue] = currentValueState
+  const [conversion, setConversion] = conversionState
 
   const handleConversion = (value) => {
-    setConversionValue(value)
-    setConversionSymbol(symbol)
-    preventNaN(value / conversion)
+    const valueBRL = (value / conversionRate)
+
+    if (!isNaN(valueBRL)) {
+      setCurrentValue(valueBRL)
+
+      setConversion({
+        fromCurrency: currency,
+        plainValue: parseFloat(value)
+      })
+    }
+  }
+
+  const hideIfNaN = (number, value) => {
+    if (isNaN(number)) return null
+
+    return value
   }
 
   return (
     <div className="converter">
-      <h2 className="name"><span className="symbol">{symbol}</span></h2>
-      <p className="value">{conversionValue} <strong>{conversionSymbol}</strong> = {(baseValue * conversion).toFixed(2)} <strong>{symbol}</strong></p>
-      <input className="input" type="number" placeholder={'Input value in ' + symbol} value={conversionValue} onChange={(e) => handleConversion(e.target.value)} />
+      <h2 className="name">{currency}</h2>
+      <p className="value">
+        {isNaN(conversion.plainValue) || (conversion.plainValue.toFixed(2) + ' ' + conversion.fromCurrency + ' = ')}
+        <strong>{(currentValue * conversionRate).toFixed(2)} {currency}</strong>
+      </p>
+      <input className="input" type="number" placeholder={'Input value in ' + currency} value={conversion.plainValue} onChange={(e) => handleConversion(e.target.value)} />
     </div>
   )
 }

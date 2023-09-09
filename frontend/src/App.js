@@ -3,52 +3,52 @@ import './App.css'
 import Converter from './Converter'
 
 export default function App() {
-  const [search, setSearch] = useState('')
-  const [baseValue, setBaseValue] = useState(0)
-  const [conversionValue, setConversionValue] = useState(0)
-  const [conversionSymbol, setConversionSymbol] = useState('BRL')
-  const [conversors, setConversors] = useState([])
-
-  const searchFilter = (currency) => {
-    return currency.symbol.toUpperCase().match('^.*' + search.toUpperCase() + '.*$')
-  }
+  const [searchText, setSearchText] = useState('')
+  const [currencyList, setCurrencyList] = useState([])
+  const currentValueState = useState(0)
+  const conversionState = useState({})
 
   useEffect(() => {
     fetch('http://localhost:5000/currency')
       .then(res => res.json())
       .then((data) => {
-        const conversors = []
-        for (const currency in data) {
-          conversors.push({
-            symbol: currency,
-            conversion: data[currency]
+        const currencyList = []
+
+        for (const currencyData in data) {
+          currencyList.push({
+            currency: currencyData,
+            conversionRate: data[currencyData]
           })
         }
 
-        setConversors(conversors)
+        setCurrencyList(currencyList)
       })
   }, [])
+
+  const searchFilter = (currencyData) => {
+    const upperCaseName = currencyData.currency.toUpperCase()
+    const regex = '^.*' + searchText.toUpperCase() + '.*$'
+
+    return upperCaseName.match(regex)
+  }
 
   return (
     <div>
       <h1>💵 Currency Converter</h1>
       <div className='container'>
-        <input className='search' value={search} placeholder="Search currency..." onChange={(e) => setSearch(e.target.value)} />
+        <input className='search' value={searchText} placeholder="Search currency (RegEx filter)" onChange={(e) => setSearchText(e.target.value)} />
         {
-          conversors.filter(searchFilter).map(({ symbol, conversion }) => {
-            return (
-              <Converter
-                name="Real"
-                symbol={symbol}
-                conversion={conversion}
-                conversionValue={conversionValue}
-                setConversionValue={setConversionValue}
-                conversionSymbol={conversionSymbol}
-                setConversionSymbol={setConversionSymbol}
-                baseValue={baseValue}
-                setBaseValue={setBaseValue} />
-            )
-          })
+          currencyList
+            .filter(searchFilter)
+            .map(({ currency, conversionRate }) => {
+              return (
+                <Converter
+                  currency={currency}
+                  conversionRate={conversionRate}
+                  currentValueState={currentValueState}
+                  conversionState={conversionState} />
+              )
+            })
         }
       </div>
     </div>
