@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import Conversor from './Conversor'
+import Converter from './Converter'
 
 export default function App() {
   const [search, setSearch] = useState('')
@@ -31,13 +31,13 @@ export default function App() {
 
   return (
     <div>
-      <h1> Money Conversor</h1>
+      <h1>💵 Currency Converter</h1>
       <div className='container'>
-        <input className='search' value={search} onChange={(e) => setSearch(e.target.value)} />
+        <input className='search' value={search} placeholder="Search currency..." onChange={(e) => setSearch(e.target.value)} />
         {
           conversors.filter(searchFilter).map(({ symbol, conversion }) => {
             return (
-              <Conversor
+              <Converter
                 name="Real"
                 symbol={symbol}
                 conversion={conversion}

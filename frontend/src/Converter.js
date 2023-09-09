@@ -1,6 +1,6 @@
-import './Conversor.css'
+import './Converter.css'
 
-export default function Conversor({ name, symbol, conversion, baseValue, setBaseValue, conversionValue, setConversionValue, conversionSymbol, setConversionSymbol }) {
+export default function Converter({ name, symbol, conversion, baseValue, setBaseValue, conversionValue, setConversionValue, conversionSymbol, setConversionSymbol }) {
   const preventNaN = (value) => {
     if (isNaN(value)) return
     setBaseValue(value.toFixed(2))
@@ -13,7 +13,7 @@ export default function Conversor({ name, symbol, conversion, baseValue, setBase
   }
 
   return (
-    <div className="conversor">
+    <div className="converter">
       <h2 className="name"><span className="symbol">{symbol}</span></h2>
       <p className="value">{conversionValue} <strong>{conversionSymbol}</strong> = {(baseValue * conversion).toFixed(2)} <strong>{symbol}</strong></p>
       <input className="input" type="number" placeholder={'Input value in ' + symbol} value={conversionValue} onChange={(e) => handleConversion(e.target.value)} />

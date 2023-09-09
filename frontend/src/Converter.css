@@ -1,12 +1,13 @@
-.conversor {
+.converter {
   width: 100%;
   max-width: min(400px, 80vw);
   padding-inline: 30px;
   padding-block: 10px;
   margin-bottom: 20px;
   background: #eee;
-  box-shadow: 2px 2px 10px #0002;
+  box-shadow: 2px 2px 10px #0243;
   border-radius: 4px;
+  border: 1px solid #0002;
 }
 
 .name {
@@ -14,7 +15,7 @@
 }
 
 .symbol {
-  color: #5a5;
+  color: #c58f3c;
 }
 
 .value {
@@ -31,7 +32,10 @@
   border: 1px solid #003;
   border-radius: 4px;
 }
+.converter:hover {
+  border: 1px solid #00d5;
+}
 
-.conversor:hover .input {
+.converter:hover .input {
   display: block;
 }
